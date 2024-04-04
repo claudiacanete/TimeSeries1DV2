@@ -1,0 +1,33 @@
+dataset_params:
+  im_path: 'data/train/images'
+
+diffusion_params:
+  num_timesteps : 50
+  beta_start : 0.000001
+  beta_end : 0.5
+
+model_params:
+  im_channels : 1
+  im_size : 16    
+  time_horizon: 256
+  #down_channels : [32, 64, 128, 256]
+  down_channels : [32, 128, 256] #for Conv1D we need a 3d tensor
+  #mid_channels : [256, 256, 128]
+  mid_channels : [256, 128] #for Conv1D we change it
+  #down_sample : [True, True, False]
+  down_sample : [True, False] #must be same length as down_channels-1
+
+  time_emb_dim : 16
+  num_down_layers : 2
+  num_mid_layers : 2
+  num_up_layers : 2
+  num_heads : 8
+
+train_params:
+  task_name: 'default'
+  batch_size: 16
+  num_epochs: 100
+  num_samples : 50
+  num_grid_rows : 10
+  lr: 0.0001
+  ckpt_name: 'ddpm_ckpt.pth'
