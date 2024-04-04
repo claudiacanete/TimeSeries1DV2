@@ -5,7 +5,7 @@ import yaml
 import os
 from torchvision.utils import make_grid
 from tqdm import tqdm
-from models.unet_base_bueno import Unet
+from models.unet_base_test import Unet
 from scheduler.linear_noise_scheduler import CosineNoiseScheduler
 import pandas as pd
 from utils.extract_mnist_images import max_old, min_old
@@ -25,8 +25,8 @@ def sample(model, scheduler, train_config, model_config, diffusion_config):
     df_list = []
     xt = torch.randn((train_config['num_samples'],
                       model_config['im_channels'],
-                      model_config['im_size'],
-                      model_config['im_size'])).to(device)
+                      model_config['im_size']
+                    )).to(device)
     for i in tqdm(reversed(range(diffusion_config['num_timesteps']))):
         # Get prediction of noise
         noise_pred = model(xt, torch.as_tensor(i).unsqueeze(0).to(device))
@@ -36,17 +36,20 @@ def sample(model, scheduler, train_config, model_config, diffusion_config):
         
         # Save x0
         ims = torch.clamp(xt, max=255).detach().cpu()
-        
+        print('ims size',ims.shape)
         #ims = (ims + 1) / 2
-        grid = make_grid(ims, nrow=train_config['num_grid_rows'])
-        img = torchvision.transforms.ToPILImage()(grid)
+        #grid = make_grid(ims, nrow=train_config['num_grid_rows'])
+        #print(grid.shape)
+        #img = torchvision.transforms.ToPILImage()(grid)
+        
+
         
         if not os.path.exists(os.path.join(train_config['task_name'], 'samples')):
             os.mkdir(os.path.join(train_config['task_name'], 'samples'))
-        img.save(os.path.join(train_config['task_name'], 'samples', 'x0_{}.png'.format(i)))
-        img.close()
+        #img.save(os.path.join(train_config['task_name'], 'samples', 'x0_{}.png'.format(i)))
+        #img.close()
         # Convert tensor to DataFrame and append to list
-        df = pd.DataFrame(ims.numpy().reshape(-1, model_config['im_channels'] * model_config['im_size'] * model_config['im_size']))
+        df = pd.DataFrame(ims.numpy().reshape(-1, model_config['im_channels'] * model_config['im_size'] ))
     
     print('ultimo df', df)#print('ims',ims)
     # Concatenate all DataFrames in the list
