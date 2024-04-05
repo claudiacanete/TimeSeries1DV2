@@ -83,8 +83,8 @@ def train(args):
             #print('noisy_im',noisy_im.shape)
             
             #noisy_im = torch.reshape(noisy_im, (noisy_im.shape[0], noisy_im.shape[1], noisy_im.shape[2]*im.shape[3]))
-            noisy_im = torch.reshape(noisy_im, (noisy_im.shape[0], noisy_im.shape[1], noisy_im.shape[2]*im.shape[3])).float()
-
+            noisy_im = torch.reshape(noisy_im, (noisy_im.shape[0], noisy_im.shape[1], noisy_im.shape[2]*noisy_im.shape[3])).float()
+            noise = torch.reshape(noise, (noise.shape[0], noise.shape[1], noise.shape[2]*noise.shape[3])).float()
             noise_pred = model(noisy_im, t)
             #print('noise_pred', noise_pred)
 
