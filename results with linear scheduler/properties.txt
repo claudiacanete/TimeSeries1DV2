@@ -1,0 +1,6 @@
+Autocorrelation of generated: 0.3314465674827823
+Autocorrelation of original: 0.6920182325181956
+Mean of generated: 449.55239711181366
+Mean of original: 589.5311281723424
+Variance of generated: 925.9523188344377
+Variance of original: 9773.763628198294
